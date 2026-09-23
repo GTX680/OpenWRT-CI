@@ -140,27 +140,3 @@ UPDATE_VERSION() {
 if [ -f "$GITHUB_WORKSPACE/Scripts/PRIVATE.sh" ]; then
 	source "$GITHUB_WORKSPACE/Scripts/PRIVATE.sh"
 fi
-
-# 安装需要执行脚本的插件
-INSTALL_TURBOACC() {
-	local SCRIPT_URL="https://raw.githubusercontent.com/mufeng05/turboacc/main/add_turboacc.sh"
-	local SCRIPT_NAME="add_turboacc.sh"
-
-	echo " "
-	echo "Installing turboacc..."
-
-	curl -sSL "$SCRIPT_URL" -o "$SCRIPT_NAME" || {
-		echo "Download failed"
-		return 1
-	}
-
-	bash "$SCRIPT_NAME" || {
-		echo "Install script failed"
-		return 1
-	}
-
-	[ -f .config ] && echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> .config
-}
-
-# 调用
-INSTALL_TURBOACC
